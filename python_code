@@ -1,0 +1,49 @@
+from selenium import webdriver
+import openpyxl
+
+driver = webdriver.Chrome()
+
+# Function to order robots from RobotSpareBin Industries Inc.
+def order_robots_from_excel(excel_file):
+    try:
+        # Open the Excel file
+        wb = openpyxl.load_workbook(excel_file)
+        sheet = wb.active
+
+        # Loop through rows in the Excel sheet
+        for row in sheet.iter_rows(min_row=5, values_only=True):
+            Head = row[1]  
+            Body = row[2]  
+	    Legs = row[3]
+            Address = row[4]
+            
+            # Navigate to the RobotSpareBin Industries Inc. website
+            driver.get("https://robotsparebinindustries.com/#/robot-order")
+
+            # Simulate ordering robots using data from Excel
+    
+      		
+			dropdown_value = sheet.cell(row=1, column=2).value  # Assuming the dropdown value is in cell A1
+			dropdown_element = driver.find_element_by_id(""//*[@id="head")
+			dropdown = Select(dropdown_element)
+			dropdown.select_by_visible_text(dropdown_value)
+			radio_button_value = sheet.cell(row=1, column=3).value  # Assuming the radio button value is in cell A1
+radio_button_element = driver.find_element_by_xpath("//*[@id="root"]/div/div[1]/div/div[1]/form/div[2]/div][@value='" + radio_button_value + "']")
+radio_button_element.click()
+           	driver.find_element_by_id("Body").send_keys(Body) 		driver.find_element_by_id("//*[@id="1711217062416"]").send_keys(Legs)
+		driver.find_element_by_id("//*[@id="address"]").send_keys(Address)
+           	driver.find_element_by_id("order").click()
+
+            print(f"Ordered {quantity} of {robot_name} successfully!")
+
+    except Exception as e:
+        print("An error occurred while ordering robots:", e)
+    finally:
+        # Close the browser
+        driver.quit()
+
+# Path to the Excel file containing robot orders
+excel_file_path = "/path/to/orders.xlsx"
+
+# Call the function to order robots from Excel
+order_robots_from_excel(excel_file_path)
